@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/UserContext";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, signInWithGoogle } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const form = event.target;
-    const name = form.name.value;
+    // const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
 
@@ -18,6 +18,17 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
         console.log("Register User:", user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleGoogleRegister = () => {
+    signInWithGoogle()
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
       })
       .catch((error) => {
         console.error(error);
@@ -60,8 +71,25 @@ const Register = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary">Login</button>
+              <button type="submit" className="btn btn-primary">
+                Register
+              </button>
             </div>
+            <br />
+            <hr />
+            <div className="form-control mt-6">
+              <button onClick={handleGoogleRegister} className="btn btn-primary">
+                Register with Google
+              </button>
+            </div>
+            <label className="label">
+              <span className="label-text-alt ">
+                Have an account? Please{" "}
+                <Link to="/login" className="link link-hover text-blue-500	">
+                  Log In
+                </Link>
+              </span>
+            </label>
           </form>
         </div>
       </div>
